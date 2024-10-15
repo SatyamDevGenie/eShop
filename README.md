@@ -61,8 +61,18 @@ JWT_SECRET=satyam123
 - **Endpoint**: `POST http://localhost:5000/api/users/login`
 
 
+#### Get user by ID
+
+- **Endpoint**: `GET http://localhost:5000/api/users/:id`
+
+#### Update user profile
+
+- **Endpoint**: `PUT http://localhost:5000/api/users/:id`
 
 
+#### Delete a user
+
+- **Endpoint**: `DELETE http://localhost:5000/api/users/:id`
 
 
 
