@@ -81,6 +81,21 @@ JWT_SECRET=satyam123
 
 - **Endpoint**: `GET http://localhost:5000/api/products`
 
+### Get single product by ID
+
+- **Endpoint**: `GET http://localhost:5000/api/products/:id`
+
+### Create Product 
+
+- **Endpoint**: `GET http://localhost:5000/api/products/`
+
+### Update Product 
+
+- **Endpoint**: `PUT http://localhost:5000/api/products/:id`
+
+### Delete Product 
+
+- **Endpoint**: `DELETE http://localhost:5000/api/products/:id`
 
 
 ## Dependencies
