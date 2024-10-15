@@ -75,6 +75,13 @@ JWT_SECRET=satyam123
 - **Endpoint**: `DELETE http://localhost:5000/api/users/:id`
 
 
+### Products API's
+
+### Get all products
+
+- **Endpoint**: `GET http://localhost:5000/api/products`
+
+
 
 ## Dependencies
 
