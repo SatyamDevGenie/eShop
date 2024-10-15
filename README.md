@@ -2,19 +2,9 @@
 
 Welcome to the RST Ecommerce platform, a Node.js and Express application with mongoDB as the database. This backend system allows you to efficiently manage employee data through various API endpoints. Whether you're retrieving employee information like user authentication with admin panel and much more things regarding ecommerce payments.
 
-## Table of Contents
-
-- [Tech Stack](#tech-stack)
-- [Installation](#installation-for-local-environment)
-- [API Reference](#api-reference)
-
 ### Tech Stack
 
-- [Node.js](https://nodejs.org/)
-- [Express.js](https://expressjs.com/)
-- [MySQL](https://www.mysql.com/)
-- [body-parser](https://www.npmjs.com/package/body-parser)
-- [nodemon](https://www.npmjs.com/package/nodemon)
+- [MERN](https://mern.org/)
 
 ## Installation for Local Environment
 
