@@ -16,7 +16,7 @@ Welcome to the RST Ecommerce platform, a Node.js and Express application with mo
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Aftab0012/nodejs_mysql_crud.git
+https://github.com/SatyamDevGenie/eShop.git
 ```
 
 2. Change to the project directory:
