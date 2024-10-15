@@ -138,4 +138,10 @@ Before running the tests, ensure you have the following dependencies installed:
 Added client ID in OrderScreen Component for performing payment integration in  my application
 ```
 
+## Client ID generated from paypaldeveloper.com website
+
+```bash
+options={{ "client-id": "Ade_MnCXzZUYnWLhn_nlQ_d5eLyuuvW3oPoml3KNcZO2FMFgeqywIOPT3HW3pywVo45_Hf_AEYDdHRkf", components: "buttons", }}
+```
+
 
