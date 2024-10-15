@@ -1,6 +1,6 @@
-# Employee Management System
+# RST Store - Ecommerce Application
 
-Welcome to the Employee Management System, a Node.js and Express application with MySQL as the database. This backend system allows you to efficiently manage employee data through various API endpoints. Whether you're retrieving employee information, adding new employees, updating salaries, or deleting employees, this Employee Management System provides the necessary functionality.
+Welcome to the RST Ecommerce platform, a Node.js and Express application with mongoDB as the database. This backend system allows you to efficiently manage employee data through various API endpoints. Whether you're retrieving employee information like user authentication with admin panel and much more things regarding ecommerce payments.
 
 ## Table of Contents
 
