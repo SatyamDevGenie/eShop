@@ -22,19 +22,19 @@ https://github.com/SatyamDevGenie/eShop.git
 2. Change to the project directory:
 
 ```bash
-cd nodejs_mysql_crud
+cd eShop
 ```
 
 3. Install dependencies:
 
 ```bash
-npm install
+npm install in both frontend & backend
 ```
 
-4. Start the server:
+4. Start the project:
 
 ```bash
-npm start
+npm run dev in root folder [ eShop ]
 ```
 
 5. Add a .env file with the following content to run the server:
