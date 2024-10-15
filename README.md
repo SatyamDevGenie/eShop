@@ -75,6 +75,8 @@ JWT_SECRET=satyam123
 - **Endpoint**: `DELETE http://localhost:5000/api/users/:id`
 
 
+
+
 ## Products API's
 
 ### Get all products
@@ -97,6 +99,9 @@ JWT_SECRET=satyam123
 
 - **Endpoint**: `DELETE http://localhost:5000/api/products/:id`
 
+
+
+
 ## Orders API's
 
 ### Get order
@@ -114,6 +119,7 @@ JWT_SECRET=satyam123
 ### Delievered a placed order by a customer
 
 - **Endpoint**: `PUT http://localhost:5000/api/products/:id/deliever`
+
 
 
 ## Dependencies
