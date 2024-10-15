@@ -82,13 +82,6 @@ Before running the tests, ensure you have the following dependencies installed:
 
 - [Node.js](https://nodejs.org/)
 - [npm](https://www.npmjs.com/)
-- [Jest](https://jestjs.io/) (version ^29.7.0)
-- [Supertest](https://www.npmjs.com/package/supertest) (version ^6.3.4)
-- [mysql2](https://www.npmjs.com/package/mysql2) (version ^3.9.1)
+- [mongoDB](https://www.npmjs.com/package/mongodb) (version ^3.9.1)
 
-Install the dependencies using the following command:
-
-```bash
-npm install
-```
 
