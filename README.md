@@ -131,6 +131,6 @@ Before running the tests, ensure you have the following dependencies installed:
 - [mongoDB](https://www.npmjs.com/package/mongodb)
 
 
-## Payment Integration
+## PayPal Payment Integration
 
 
