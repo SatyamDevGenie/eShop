@@ -4,7 +4,12 @@ Welcome to the RST Ecommerce platform, a Node.js and Express application with mo
 
 ### Tech Stack
 
-- [MERN](https://mern.org/)
+- Node.js
+- Express.js
+- React.js
+- Redux.js
+- Javascript
+
 
 ## Installation for Local Environment
 
