@@ -97,6 +97,24 @@ JWT_SECRET=satyam123
 
 - **Endpoint**: `DELETE http://localhost:5000/api/products/:id`
 
+## Orders API's
+
+### Get order
+
+- **Endpoint**: `GET http://localhost:5000/api/orders/:id`
+
+### Create Order
+
+- **Endpoint**: `POST http://localhost:5000/api/orders/`
+
+### Update order
+
+- **Endpoint**: `PUT http://localhost:5000/api/products/:id/pay`
+
+### Delievered a placed order by a customer
+
+- **Endpoint**: `PUT http://localhost:5000/api/products/:id/deliever`
+
 
 ## Dependencies
 
