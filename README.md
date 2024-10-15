@@ -51,105 +51,20 @@ JWT_SECRET=satyam123
 
 ### Users API's
 
-#### Retrieve all employees
+#### Register a user
 
-- **Endpoint**: `GET http://localhost:5000/api/users/`
-- **Response**: Returns a JSON array of all employees.
+- **Endpoint**: `POST http://localhost:5000/api/users/`
 
-  ```
-  const users = [
-  {
-    name: "Admin",
-    email: "admin@example.com",
-    password: bcrypt.hashSync("123456", 10),
-    isAdmin: true,
-  },
-  {
-    name: "John Doe",
-    email: "john@example.com",
-    password: bcrypt.hashSync("123456", 10),
-    isAdmin: false,
-  },
-  {
-    name: "Jane Doe",
-    email: "jane@example.com",
-    password: bcrypt.hashSync("123456", 10),
-    isAdmin: false,
-  },
-];
-  ```
 
-#### Retrieve an employee by ID
+#### Login a user
 
-- **Endpoint**: `GET http:/localhost:3004/api/employees/:{add_employee_id}`
+- **Endpoint**: `POST http://localhost:5000/api/users/login`
 
-  ```
-  {
-  "employee": {
-      "id": 9,
-      "name": "Erina nakiri",
-      "employee_code": "EMP008",
-      "salary": 400000
-  }
-  }
-  ```
 
-- **Response**: Returns a JSON object of the employee with the specified ID.
 
-#### Delete an employee by ID
 
-- **Endpoint**:
 
-  `DELETE http://localhost:3004/api/employees/:{add_employee_id}`
 
-  ```
-  {
-  "message": "Deleted Successfully"
-  }
-  ```
-
-- **Response**: Deletes the employee with the specified ID and returns 'deleted successfully' if successful.
-
-#### Add a new employee
-
-- **Endpoint**: `POST http://localhost:3004/api/employees/`
-- **Request Body Format**:
-
-  ```json
-  {
-    "name": "John Doe",
-    "employee_code": "EMP001",
-    "salary": 50000
-  }
-  ```
-
-- **Response**: Returns a JSON object with the message 'Employee added successfully' if successful.
-
-#### Update an employee by ID
-
-- **Endpoint**:
-
-  `PUT http://localhost:3004/api/employees/:id`
-
-- **Request Body Format**:
-
-  ```json
-  {
-    "name": "Updated Name",
-    "employee_code": "EMP002",
-    "salary": 60000
-  }
-  ```
-
-- **Response**: Returns a JSON object with the message 'Updated successfully' if successful.
-
-### Below is the database screenshot example:-
-
-![Alt text](image-3.png)
-
-# Employee Management API Tests
-
-The API is designed to manage employee data, providing endpoints for retrieving, adding, updating, and deleting employee records.
 
 ## Dependencies
 
@@ -167,56 +82,3 @@ Install the dependencies using the following command:
 npm install
 ```
 
-## Important Note: Database Connection
-
-_**⚠️ The tests in this suite operate on a real-time MySQL database connection. Before running the tests, it's crucial to ensure that the database is properly set up, and any required values for testing (such as employee IDs) are known. ( Please look at the table and it will be more easy to adjust the employee Id's ), and please look into current written test cases and there ids to get idea how to adjust⚠️**_
-
-## Running Tests
-
-To execute the test suite, use the following command:
-
-```bash
-npm test
-```
-
-The tests cover various scenarios for the Employee Management API, including:
-
-- Retrieving all employees.
-- Retrieving an employee by ID.
-- Deleting an employee by ID.
-- Adding a new employee.
-- Handling conflicts when adding an employee with an existing employee_code.
-- Updating an existing employee.
-
-## Sample Test Output
-
-Running the test suite should produce output similar to the following:
-
-![Alt text](image-1.png)
-
-# Important Notice
-
-**Attention: If you have run the test cases before, follow these instructions carefully!**
-
-If you've previously executed the test cases, it's crucial to update the test case IDs according to the `(NOTE)` provided at the bottom of the test file. Failure to do so will result in the following error:
-
-### Instructions for Updating Test Cases
-
-1. Open the test file in your preferred code editor.
-2. Locate the `(NOTE)` section at the bottom of the `(employee.tests.js)` file.
-3. Update each test case ID according to the provided guidelines.
-4. Save the changes.
-
-By ensuring that the test case IDs match the specified format, you'll avoid encountering errors during testing. Thank you for your attention to this matter!
-
-## This how test cases looks if you dont update (id) after each (test run)
-
-![Alt text](image-2.png)
-
-## Troubleshooting Tests
-
-If you encounter issues running the tests, try the following steps:
-
-1. Ensure all dependencies are installed (`npm install`).
-2. Check your Node.js and npm versions.
-3. Verify the correctness of your environment variables for connecting to the MySQL database.
