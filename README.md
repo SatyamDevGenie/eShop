@@ -81,7 +81,7 @@ JWT_SECRET=satyam123
 Before running the tests, ensure you have the following dependencies installed:
 
 - [Node.js](https://nodejs.org/)
-- [npm](https://www.npmjs.com/)
-- [mongoDB](https://www.npmjs.com/package/mongodb) (version ^3.9.1)
+- [Git](https://www.git.com/)
+- [mongoDB](https://www.npmjs.com/package/mongodb)
 
 
