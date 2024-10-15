@@ -49,31 +49,34 @@ JWT_SECRET=satyam123
 
 ## API Reference
 
-### Employee API's
+### Users API's
 
 #### Retrieve all employees
 
-- **Endpoint**: `GET http://localhost:3004/api/employees/`
+- **Endpoint**: `GET http://localhost:5000/api/users/`
 - **Response**: Returns a JSON array of all employees.
 
   ```
+  const users = [
   {
-  "employees": [
-      {
-      "id": 9,
-      "name": "Erina nakiri",
-      "employee_code": "EMP008",
-      "salary": 400000
-      },
-      {
-      "id": 11,
-      "name": "Alice Johnson",
-      "employee_code": "EMP003",
-      "salary": 80000
-      }
-  ]
-  }
-
+    name: "Admin",
+    email: "admin@example.com",
+    password: bcrypt.hashSync("123456", 10),
+    isAdmin: true,
+  },
+  {
+    name: "John Doe",
+    email: "john@example.com",
+    password: bcrypt.hashSync("123456", 10),
+    isAdmin: false,
+  },
+  {
+    name: "Jane Doe",
+    email: "jane@example.com",
+    password: bcrypt.hashSync("123456", 10),
+    isAdmin: false,
+  },
+];
   ```
 
 #### Retrieve an employee by ID
