@@ -70,12 +70,12 @@ JWT_SECRET=satyam123
 - **Endpoint**: `PUT http://localhost:5000/api/users/:id`
 
 
-#### Delete a user
+### Delete a user
 
 - **Endpoint**: `DELETE http://localhost:5000/api/users/:id`
 
 
-### Products API's
+## Products API's
 
 ### Get all products
 
