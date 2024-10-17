@@ -12,6 +12,8 @@ import {
   Tr,
   useColorModeValue,
   Text,
+  Stack,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { IoAdd, IoPencilSharp, IoTrashBinSharp } from "react-icons/io5";
@@ -55,6 +57,8 @@ const ProductListScreen = () => {
   const hoverColor = useColorModeValue("gray.100", "gray.700");
   const tableHeaderColor = useColorModeValue("gray.200", "gray.700");
 
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
   useEffect(() => {
     dispatch({ type: PRODUCT_CREATE_RESET });
 
@@ -88,13 +92,23 @@ const ProductListScreen = () => {
 
   return (
     <>
-      <Flex mb="5" alignItems="center" justifyContent="space-between">
+      <Flex
+        mb="5"
+        alignItems={{ base: "flex-start", md: "center" }}
+        justifyContent="space-between"
+        flexDirection={{ base: "column", md: "row" }}
+        gap={{ base: 4, md: 0 }}  // Added gap for better spacing on mobile
+      >
         <Heading as="h1" fontSize={{ base: "2xl", md: "3xl" }}>
           Products
         </Heading>
-        <Button onClick={createProductHandler} colorScheme="teal" size="lg">
-          <Icon as={IoAdd} mr="2" fontSize="xl" fontWeight="bold" /> Create
-          Product
+        <Button
+          onClick={createProductHandler}
+          colorScheme="teal"
+          size={{ base: "md", md: "lg" }}
+          leftIcon={<IoAdd />}
+        >
+          Create Product
         </Button>
       </Flex>
 
@@ -112,45 +126,100 @@ const ProductListScreen = () => {
           bgColor={bgColor}
           rounded="lg"
           shadow="lg"
-          px="5"
-          py="5"
+          px={{ base: 2, md: 5 }}
+          py={{ base: 2, md: 5 }}
           mt="4"
-          mx={{ base: "2", md: "5" }}
+          mx={{ base: 2, md: 5 }}
         >
-          <Table variant="striped" size="sm">
-            <Thead bgColor={tableHeaderColor}>
-              <Tr>
-                <Th>ID</Th>
-                <Th>NAME</Th>
-                <Th>PRICE</Th>
-                <Th>CATEGORY</Th>
-                <Th>BRAND</Th>
-                <Th></Th>
-              </Tr>
-            </Thead>
-            <Tbody>
+          {!isMobile ? (
+            // Desktop Table View
+            <Box overflowX="auto">
+              <Table variant="striped" size="sm">
+                <Thead bgColor={tableHeaderColor}>
+                  <Tr>
+                    <Th>ID</Th>
+                    <Th>NAME</Th>
+                    <Th>PRICE</Th>
+                    <Th>CATEGORY</Th>
+                    <Th>BRAND</Th>
+                    <Th></Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {products.map((product) => (
+                    <Tr
+                      key={product._id}
+                      _hover={{
+                        bg: hoverColor,
+                      }}
+                    >
+                      <Td>{product._id}</Td>
+                      <Td>{product.name}</Td>
+                      <Td>₹{product.price.toFixed(2)}</Td>
+                      <Td>{product.category}</Td>
+                      <Td>{product.brand}</Td>
+                      <Td>
+                        <Flex
+                          justifyContent={{ base: "space-between", md: "flex-end" }}
+                          flexDirection={{ base: "column", md: "row" }} // Stack buttons on mobile
+                          gap={2} // Add space between buttons
+                        >
+                          <Button
+                            as={RouterLink}
+                            to={`/admin/product/${product._id}/edit`}
+                            colorScheme="teal"
+                            size="sm"
+                            variant="outline"
+                            leftIcon={<IoPencilSharp />}
+                            mb={{ base: 2, md: 0 }} // Margin bottom for mobile stacking
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            colorScheme="red"
+                            size="sm"
+                            onClick={() => deleteHandler(product._id)}
+                            leftIcon={<IoTrashBinSharp />}
+                          >
+                            Delete
+                          </Button>
+                        </Flex>
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </Box>
+          ) : (
+            // Mobile Card View
+            <Stack spacing={4}>
               {products.map((product) => (
-                <Tr
+                <Box
                   key={product._id}
-                  _hover={{
-                    bg: hoverColor,
-                  }}
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  overflow="hidden"
+                  shadow="sm"
+                  p={4}
+                  bgColor={bgColor}
                 >
-                  <Td>{product._id}</Td>
-                  <Td>{product.name}</Td>
-                  <Td>₹{product.price.toFixed(2)}</Td>
-                  <Td>{product.category}</Td>
-                  <Td>{product.brand}</Td>
-                  <Td>
-                    <Flex justifyContent="flex-end" alignItems="center">
+                  <Flex justifyContent="space-between" alignItems="center" mb={2}>
+                    <Text fontSize="sm" fontWeight="bold" color="gray.600">
+                      ID: {product._id}
+                    </Text>
+                    <Flex
+                      justifyContent="space-between"
+                      flexDirection={{ base: "column", md: "row" }} // Stack buttons on mobile
+                      gap={2} // Add gap between buttons for mobile
+                    >
                       <Button
-                        mr="4"
                         as={RouterLink}
                         to={`/admin/product/${product._id}/edit`}
                         colorScheme="teal"
-                        variant="outline"
                         size="sm"
+                        variant="outline"
                         leftIcon={<IoPencilSharp />}
+                        mb={{ base: 2, md: 0 }} // Adjust margin bottom for mobile stacking
                       >
                         Edit
                       </Button>
@@ -163,11 +232,23 @@ const ProductListScreen = () => {
                         Delete
                       </Button>
                     </Flex>
-                  </Td>
-                </Tr>
+                  </Flex>
+                  <Text fontWeight="medium" color="gray.700">
+                    {product.name}
+                  </Text>
+                  <Text fontSize="sm" color="gray.600">
+                    Price: ₹{product.price.toFixed(2)}
+                  </Text>
+                  <Text fontSize="sm" color="gray.600">
+                    Category: {product.category}
+                  </Text>
+                  <Text fontSize="sm" color="gray.600">
+                    Brand: {product.brand}
+                  </Text>
+                </Box>
               ))}
-            </Tbody>
-          </Table>
+            </Stack>
+          )}
         </Box>
       )}
     </>
@@ -175,6 +256,7 @@ const ProductListScreen = () => {
 };
 
 export default ProductListScreen;
+
 
 
 
