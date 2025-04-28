@@ -85,16 +85,14 @@ const ProductScreen = () => {
           px={{ base: "2", md: "8" }}
         >
           {/* Product Image */}
-          <Flex align="center" justify="center" bg="gray.100" borderRadius="lg" p="4">
+          <Flex align="center" justify="center" p="4">
             <Image
               src={product.image}
               alt={product.name}
               objectFit="contain"
               w="100%"
               maxH="500px"
-              borderRadius="lg"
-              boxShadow="md"
-              _hover={{ transform: "scale(1.02)", transition: "all 0.3s ease-in-out" }}
+              // _hover={{ transform: "scale(1.02)", transition: "all 0.3s ease-in-out" }}
             />
           </Flex>
 

@@ -4,6 +4,9 @@ import {
   Flex,
   Heading,
   Icon,
+  Input,
+  InputGroup,
+  InputRightElement,
   Table,
   Tbody,
   Td,
@@ -14,9 +17,16 @@ import {
   Text,
   Stack,
   useBreakpointValue,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
-import { IoAdd, IoPencilSharp, IoTrashBinSharp } from "react-icons/io5";
+import { useEffect, useState } from "react";
+import { IoAdd, IoPencilSharp, IoTrashBinSharp, IoSearch } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import {
@@ -32,6 +42,10 @@ const ProductListScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [deleteId, setDeleteId] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
 
@@ -39,11 +53,7 @@ const ProductListScreen = () => {
   const { userInfo } = userLogin;
 
   const productDelete = useSelector((state) => state.productDelete);
-  const {
-    loading: loadingDelete,
-    error: errorDelete,
-    success: successDelete,
-  } = productDelete;
+  const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDelete;
 
   const productCreate = useSelector((state) => state.productCreate);
   const {
@@ -71,24 +81,25 @@ const ProductListScreen = () => {
     } else {
       dispatch(listProducts());
     }
-  }, [
-    dispatch,
-    navigate,
-    userInfo,
-    successDelete,
-    successCreate,
-    createdProduct,
-  ]);
+  }, [dispatch, navigate, userInfo, successDelete, successCreate, createdProduct]);
 
   const deleteHandler = (id) => {
-    if (window.confirm("Are you sure")) {
-      dispatch(deleteProduct(id));
-    }
+    setDeleteId(id);
+    onOpen();
+  };
+
+  const confirmDeleteHandler = () => {
+    dispatch(deleteProduct(deleteId));
+    onClose();
   };
 
   const createProductHandler = () => {
     dispatch(createProduct());
   };
+
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <>
@@ -97,7 +108,7 @@ const ProductListScreen = () => {
         alignItems={{ base: "flex-start", md: "center" }}
         justifyContent="space-between"
         flexDirection={{ base: "column", md: "row" }}
-        gap={{ base: 4, md: 0 }}  // Added gap for better spacing on mobile
+        gap={{ base: 4, md: 0 }}
       >
         <Heading as="h1" fontSize={{ base: "2xl", md: "3xl" }}>
           Products
@@ -111,6 +122,17 @@ const ProductListScreen = () => {
           Create Product
         </Button>
       </Flex>
+
+      <InputGroup mb="4">
+        <Input
+          placeholder="Search products..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <InputRightElement>
+          <Icon as={IoSearch} color="gray.500" />
+        </InputRightElement>
+      </InputGroup>
 
       {loadingDelete && <Loader />}
       {errorDelete && <Message type="error">{errorDelete}</Message>}
@@ -132,7 +154,6 @@ const ProductListScreen = () => {
           mx={{ base: 2, md: 5 }}
         >
           {!isMobile ? (
-            // Desktop Table View
             <Box overflowX="auto">
               <Table variant="striped" size="sm">
                 <Thead bgColor={tableHeaderColor}>
@@ -142,28 +163,19 @@ const ProductListScreen = () => {
                     <Th>PRICE</Th>
                     <Th>CATEGORY</Th>
                     <Th>BRAND</Th>
-                    <Th></Th>
+                    <Th>ACTIONS</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {products.map((product) => (
-                    <Tr
-                      key={product._id}
-                      _hover={{
-                        bg: hoverColor,
-                      }}
-                    >
+                  {filteredProducts.map((product) => (
+                    <Tr key={product._id} _hover={{ bg: hoverColor }}>
                       <Td>{product._id}</Td>
                       <Td>{product.name}</Td>
                       <Td>₹{product.price.toFixed(2)}</Td>
                       <Td>{product.category}</Td>
                       <Td>{product.brand}</Td>
                       <Td>
-                        <Flex
-                          justifyContent={{ base: "space-between", md: "flex-end" }}
-                          flexDirection={{ base: "column", md: "row" }} // Stack buttons on mobile
-                          gap={2} // Add space between buttons
-                        >
+                        <Flex gap={2} justify="flex-end">
                           <Button
                             as={RouterLink}
                             to={`/admin/product/${product._id}/edit`}
@@ -171,7 +183,6 @@ const ProductListScreen = () => {
                             size="sm"
                             variant="outline"
                             leftIcon={<IoPencilSharp />}
-                            mb={{ base: 2, md: 0 }} // Margin bottom for mobile stacking
                           >
                             Edit
                           </Button>
@@ -191,9 +202,8 @@ const ProductListScreen = () => {
               </Table>
             </Box>
           ) : (
-            // Mobile Card View
             <Stack spacing={4}>
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <Box
                   key={product._id}
                   borderWidth="1px"
@@ -207,11 +217,7 @@ const ProductListScreen = () => {
                     <Text fontSize="sm" fontWeight="bold" color="gray.600">
                       ID: {product._id}
                     </Text>
-                    <Flex
-                      justifyContent="space-between"
-                      flexDirection={{ base: "column", md: "row" }} // Stack buttons on mobile
-                      gap={2} // Add gap between buttons for mobile
-                    >
+                    <Flex gap={2} direction="column">
                       <Button
                         as={RouterLink}
                         to={`/admin/product/${product._id}/edit`}
@@ -219,7 +225,6 @@ const ProductListScreen = () => {
                         size="sm"
                         variant="outline"
                         leftIcon={<IoPencilSharp />}
-                        mb={{ base: 2, md: 0 }} // Adjust margin bottom for mobile stacking
                       >
                         Edit
                       </Button>
@@ -251,176 +256,25 @@ const ProductListScreen = () => {
           )}
         </Box>
       )}
+
+      {/* Confirm Delete Modal */}
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Confirm Delete</ModalHeader>
+          <ModalBody>Are you sure you want to delete this product?</ModalBody>
+          <ModalFooter>
+            <Button colorScheme="red" mr={3} onClick={confirmDeleteHandler}>
+              Delete
+            </Button>
+            <Button variant="ghost" onClick={onClose}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
 
 export default ProductListScreen;
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import {
-//   Box,
-//   Button,
-//   Flex,
-//   Heading,
-//   Icon,
-//   Table,
-//   Tbody,
-//   Td,
-//   Th,
-//   Thead,
-//   Tr,
-// } from "@chakra-ui/react";
-// import { useEffect } from "react";
-// import { IoAdd, IoPencilSharp, IoTrashBinSharp } from "react-icons/io5";
-// import { useDispatch, useSelector } from "react-redux";
-// import { Link as RouterLink, useNavigate } from "react-router-dom";
-
-// import {
-//   createProduct,
-//   deleteProduct,
-//   listProducts,
-// } from "../actions/productActions";
-// import Loader from "../components/Loader";
-// import Message from "../components/Message";
-// import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
-
-// const ProductListScreen = () => {
-//   const dispatch = useDispatch();
-//   const navigate = useNavigate();
-
-//   const productList = useSelector((state) => state.productList);
-//   const { loading, error, products } = productList;
-
-//   const userLogin = useSelector((state) => state.userLogin);
-//   const { userInfo } = userLogin;
-
-//   const productDelete = useSelector((state) => state.productDelete);
-//   const {
-//     loading: loadingDelete,
-//     error: errorDelete,
-//     success: successDelete,
-//   } = productDelete;
-
-//   const productCreate = useSelector((state) => state.productCreate);
-//   const {
-//     loading: loadingCreate,
-//     error: errorCreate,
-//     success: successCreate,
-//     product: createdProduct,
-//   } = productCreate;
-
-//   useEffect(() => {
-//     dispatch({ type: PRODUCT_CREATE_RESET });
-
-//     if (!userInfo || !userInfo.isAdmin) {
-//       navigate("/login");
-//     }
-
-//     if (successCreate) {
-//       navigate(`/admin/product/${createdProduct._id}/edit`);
-//     } else {
-//       dispatch(listProducts());
-//     }
-//   }, [
-//     dispatch,
-//     navigate,
-//     userInfo,
-//     successDelete,
-//     successCreate,
-//     createdProduct,
-//   ]);
-
-//   const deleteHandler = (id) => {
-//     if (window.confirm("Are you sure")) {
-//       dispatch(deleteProduct(id));
-//     }
-//   };
-
-//   const createProductHandler = () => {
-//     dispatch(createProduct());
-//   };
-
-//   return (
-//     <>
-//       <Flex mb="5" alignItems="center" justifyContent="space-between">
-//         <Heading as="h1" fontSize="3xl" mb="5">
-//           Product
-//         </Heading>
-//         <Button onClick={createProductHandler} colorScheme="teal">
-//           <Icon as={IoAdd} mr="2" fontSize="xl" fontWeight="bold" /> Create
-//           Product
-//         </Button>
-//       </Flex>
-
-//       {loadingDelete && <Loader />}
-//       {errorDelete && <Message type="error">{errorDelete}</Message>}
-//       {loadingCreate && <Loader />}
-//       {errorCreate && <Message type="error">{errorCreate}</Message>}
-
-//       {loading ? (
-//         <Loader />
-//       ) : error ? (
-//         <Message type="error">{error}</Message>
-//       ) : (
-//         <Box bgColor="white" rounded="lg" shadow="lg" px="5" py="5">
-//           <Table variant="striped" colorScheme="gray" size="sm">
-//             <Thead>
-//               <Tr>
-//                 <Th>ID</Th>
-//                 <Th>NAME</Th>
-//                 <Th>PRICE</Th>
-//                 <Th>CATEGORY</Th>
-//                 <Th>BRAND</Th>
-//                 <Th></Th>
-//               </Tr>
-//             </Thead>
-//             <Tbody>
-//               {products.map((product) => (
-//                 <Tr key={product._id}>
-//                   <Td>{product._id}</Td>
-//                   <Td>{product.name}</Td>
-//                   <Td>{product.price}</Td>
-//                   <Td>{product.category}</Td>
-//                   <Td>{product.brand}</Td>
-//                   <Td>
-//                     <Flex justifyContent="flex-end" alignItems="center">
-//                       <Button
-//                         mr="4"
-//                         as={RouterLink}
-//                         to={`/admin/product/${product._id}/edit`}
-//                         colorScheme="teal"
-//                       >
-//                         <Icon as={IoPencilSharp} color="white" size="sm" />
-//                       </Button>
-//                       <Button
-//                         mr="4"
-//                         colorScheme="red"
-//                         onClick={() => deleteHandler(product._id)}
-//                       >
-//                         <Icon as={IoTrashBinSharp} color="white" size="sm" />
-//                       </Button>
-//                     </Flex>
-//                   </Td>
-//                 </Tr>
-//               ))}
-//             </Tbody>
-//           </Table>
-//         </Box>
-//       )}
-//     </>
-//   );
-// };
-
-// export default ProductListScreen;

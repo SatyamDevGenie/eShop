@@ -10,6 +10,7 @@ import {
   VStack,
   Box,
   useColorModeValue,
+  Text,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -50,29 +51,31 @@ const PaymentScreen = () => {
   };
 
   return (
-    <Flex w="full" alignItems="center" justifyContent="center" py="10">
+    <Flex direction="column" w="full" alignItems="center" justifyContent="center" py="10" bg="gray.50">
       <FormContainer>
         <Box
           bg={useColorModeValue("white", "gray.700")}
           boxShadow="lg"
           p="8"
           rounded="lg"
+          w="full"
+          maxW="lg"
         >
           {/* Checkout Steps */}
           <CheckoutSteps step1 step2 step3 />
 
           {/* Heading */}
-          <Heading as="h2" mb="6" fontSize="2xl" textAlign="center">
-            Select Payment Method
+          <Heading as="h2" mb="6" fontSize="2xl" fontWeight="bold" textAlign="center">
+          Make your Payment
           </Heading>
 
-          {/* Form */}
+          {/* Payment Form */}
           <form onSubmit={submitHandler}>
             <VStack spacing="6" align="stretch">
               {/* Payment Method Options */}
-              <FormControl as="fieldset">
-                <FormLabel as="legend" fontWeight="bold">
-                  Payment Options
+              <FormControl as="fieldset" isRequired>
+                <FormLabel as="legend" fontWeight="semibold" fontSize="lg">
+                  Choose your payment method
                 </FormLabel>
                 <RadioGroup
                   value={paymentMethodRadio}
@@ -82,7 +85,10 @@ const PaymentScreen = () => {
                     <Radio value="paypal" size="lg">
                       PayPal or Credit/Debit Card
                     </Radio>
-                    {/* You can add more payment options here if needed */}
+                    {/* Additional payment options can be added here */}
+                    {/* <Radio value="stripe" size="lg">
+                      Stripe
+                    </Radio> */}
                   </VStack>
                 </RadioGroup>
               </FormControl>
@@ -95,11 +101,20 @@ const PaymentScreen = () => {
                 width="full"
                 mt="4"
                 _hover={{ bg: "teal.600" }}
+                isDisabled={!paymentMethodRadio}
               >
                 Continue
               </Button>
             </VStack>
           </form>
+
+          {/* Disclaimer / Additional Information */}
+          <Box mt="6" textAlign="center" color="gray.500">
+            <Text fontSize="sm">
+              By proceeding, you agree to our{" "}
+              <strong>Terms & Conditions</strong>.
+            </Text>
+          </Box>
         </Box>
       </FormContainer>
     </Flex>
@@ -107,6 +122,7 @@ const PaymentScreen = () => {
 };
 
 export default PaymentScreen;
+
 
 
 
@@ -121,7 +137,9 @@ export default PaymentScreen;
 //   HStack,
 //   Radio,
 //   RadioGroup,
-//   Spacer,
+//   VStack,
+//   Box,
+//   useColorModeValue,
 // } from "@chakra-ui/react";
 // import { useEffect, useState } from "react";
 // import { useDispatch, useSelector } from "react-redux";
@@ -162,36 +180,64 @@ export default PaymentScreen;
 //   };
 
 //   return (
-//     <Flex w="full" alignItems="center" justifyContent="center" py="5">
+//     <Flex w="full" alignItems="center" justifyContent="center" py="10">
 //       <FormContainer>
-//         <CheckoutSteps step1 step2 step3 />
+//         <Box
+//           bg={useColorModeValue("white", "gray.700")}
+//           boxShadow="lg"
+//           p="8"
+//           rounded="lg"
+//         >
+//           {/* Checkout Steps */}
+//           <CheckoutSteps step1 step2 step3 />
 
-//         <Heading as="h2" mb="8" fontSize="3xl">
-//           Payment Method
-//         </Heading>
+//           {/* Heading */}
+//           <Heading as="h2" mb="6" fontSize="2xl" textAlign="center">
+//             Select Payment Method
+//           </Heading>
 
-//         <form onSubmit={submitHandler}>
-//           <FormControl as="fieldset">
-//             <FormLabel as="legend">Select Methods</FormLabel>
-//             <RadioGroup
-//               value={paymentMethodRadio}
-//               onChange={setPaymentMethodRadio}
-//             >
-//               <HStack space="24px">
-//                 <Radio value="paypal">PayPal or Credit/Debit Card</Radio>
-//               </HStack>
-//             </RadioGroup>
-//           </FormControl>
+//           {/* Form */}
+//           <form onSubmit={submitHandler}>
+//             <VStack spacing="6" align="stretch">
+//               {/* Payment Method Options */}
+//               <FormControl as="fieldset">
+//                 <FormLabel as="legend" fontWeight="bold">
+//                   Payment Options
+//                 </FormLabel>
+//                 <RadioGroup
+//                   value={paymentMethodRadio}
+//                   onChange={setPaymentMethodRadio}
+//                 >
+//                   <VStack align="start" spacing="4">
+//                     <Radio value="paypal" size="lg">
+//                       PayPal or Credit/Debit Card
+//                     </Radio>
+//                     {/* You can add more payment options here if needed */}
+//                   </VStack>
+//                 </RadioGroup>
+//               </FormControl>
 
-//           <Spacer h="3" />
-
-//           <Button type="submit" colorScheme="teal" mt="4">
-//             Continue
-//           </Button>
-//         </form>
+//               {/* Submit Button */}
+//               <Button
+//                 type="submit"
+//                 colorScheme="teal"
+//                 size="lg"
+//                 width="full"
+//                 mt="4"
+//                 _hover={{ bg: "teal.600" }}
+//               >
+//                 Continue
+//               </Button>
+//             </VStack>
+//           </form>
+//         </Box>
 //       </FormContainer>
 //     </Flex>
 //   );
 // };
 
 // export default PaymentScreen;
+
+
+
+
